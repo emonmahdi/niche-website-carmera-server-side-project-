@@ -48,6 +48,18 @@ async function run(){
           const result = await usersCollection.updateOne(filter, updateDoc, options);
           res.json(result)
         })  
+          // user role admin check GET API
+        app.get('/users/:email', async(req, res) => {
+          const email = req.params.email;
+          const query = { email: email };
+          const user = await usersCollection.findOne(query);
+          let isAdmin = false;
+          if(user?.role === 'admin'){
+              isAdmin= true;
+          }
+          res.json({admin: isAdmin})
+        })
+
 
          // Order book post api
         app.post('/myorder', async(req, res) => {
@@ -93,6 +105,16 @@ async function run(){
           console.log('deleting user with id', id);
           res.json(result);
         });
+        // make admin set role PUT API
+        app.put('/users/admin', async(req, res) => {
+          const user = req.body;
+          console.log('put' , user);
+          const filter = {email: user.email};
+          const updateDoc = {$set: { role: 'admin' }};
+          const result = await usersCollection.updateOne(filter, updateDoc);
+          res.json(result);
+        })
+
     }
     finally{
         // await client.close();
