@@ -27,10 +27,11 @@ async function run(){
 
         // get products api homepage products
         app.get('/products',  async(req, res) => {
-            const cursor  = productsCollection.find({}).limit(6);
+            const cursor  = productsCollection.find({});
             const products = await cursor.toArray();
             res.send(products);
         })
+ 
 
         // post resgiter user data
         app.post('/users', async(req, res) => {
