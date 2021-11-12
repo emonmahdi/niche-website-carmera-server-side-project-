@@ -114,6 +114,15 @@ async function run(){
           const updateDoc = {$set: { role: 'admin' }};
           const result = await usersCollection.updateOne(filter, updateDoc);
           res.json(result);
+        });
+
+        // add product Post Api
+        app.post('/products', async(req, res) => {
+          const product = req.body;
+          console.log('hitting the post',product)
+          const result = await productsCollection.insertOne(product)
+          console.log(result)
+          res.json(result)
         })
 
     }
