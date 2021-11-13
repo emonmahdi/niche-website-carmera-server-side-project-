@@ -22,7 +22,9 @@ async function run(){
         const database = client.db('cameraDb');
         const productsCollection = database.collection('products'); 
         const usersCollection = database.collection('users');
-        const orderCollection = database.collection('orders')
+        const orderCollection = database.collection('orders');
+        const reviewCollection = database.collection('reviews');
+
 
 
         // get products api homepage products
@@ -123,7 +125,23 @@ async function run(){
           const result = await productsCollection.insertOne(product)
           console.log(result)
           res.json(result)
-        })
+        });
+
+        // add review POST API
+        app.post('/review', async(req, res) => {
+          console.log('hit the review');
+          const review = req.body;
+          const result = await reviewCollection.insertOne(review)
+          console.log(result)
+          res.json(result)
+        });
+         // manage all order get api
+         app.get('/review', async(req, res) => {
+          const cursor = reviewCollection.find({})
+          const result = await cursor.toArray();
+          res.send(result);  
+          console.log('all orders here',result)
+        }) ;
 
     }
     finally{
