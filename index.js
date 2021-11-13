@@ -143,6 +143,16 @@ async function run(){
           console.log('all orders here',result)
         }) ;
 
+         // manage all products DELETE API
+         app.delete('/products/:id', async (req, res) => {
+          const id = req.params.id;
+          console.log(id)
+          const query = { _id: ObjectId(id) };
+          const result = await productsCollection.deleteOne(query);
+          console.log('deleting user with id', result);
+          res.json(result);
+        });
+
     }
     finally{
         // await client.close();
